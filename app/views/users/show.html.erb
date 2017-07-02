@@ -1,0 +1,12 @@
+<h1><%= @user.username %></h1>
+
+<% @user_articles.each do |article| %>
+<h2><%= link_to article.name, article %></h2>
+<%= simple_format article.content %>
+Submitted:
+<%= time_ago_in_words(article.created_at) %> ago
+<% if article.user_id == current_user.id %>
+<%= link_to "Edit", edit_article_path(article) %> |
+<%= link_to 'Delete', article, method: :delete, data: {confirm: 'Are you sure?'} %> |
+<% end %>
+<% end %>
