@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_article, only: [:show, :edit, :update, :destroy, :upvote]
   before_action :authenticate_user!, except: [:index, :show]
 
   # GET /articles
@@ -11,6 +11,11 @@ class ArticlesController < ApplicationController
   # GET /articles/1
   # GET /articles/1.json
   def show
+    if @article.voted_on_by?(current_user)
+      @likeClass="Unlike"
+    else
+      @likeClass="Like"
+    end
   end
 
   # GET /articles/new
@@ -32,6 +37,16 @@ class ArticlesController < ApplicationController
       else
         render :new
       end
+  end
+
+  def upvote
+    if @article.voted_on_by?(current_user)
+      @article.unvote_by current_user
+      redirect_to :back
+    else
+      @article.upvote_by current_user
+      redirect_to :back
+    end
   end
 
   # PATCH/PUT /articles/1

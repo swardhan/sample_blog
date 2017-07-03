@@ -2,7 +2,11 @@ Rails.application.routes.draw do
 
 
   devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
-  resources :articles
+  resources :articles  do
+    member do
+      put "like", to: "articles#upvote"
+    end
+  end
   root 'articles#index'
   resources :users
   # The priority is based upon order of creation: first created -> highest priority.

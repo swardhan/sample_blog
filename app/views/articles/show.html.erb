@@ -8,8 +8,12 @@ Submitted By:
 <%= link_to @article.user.username, @article.user %> |
 <%= time_ago_in_words(@article.created_at) %> ago
 <p>
+  <% if user_signed_in? %>
   <% if @article.user_id == current_user.id %>
   <%= link_to "Edit", edit_article_path(@article) %> |
   <%= link_to 'Delete', @article, method: :delete, data: {confirm: 'Are you sure?'} %> |
   <% end %>
+  <%= link_to @likeClass , like_article_path(@article) ,method: :put %>
+  <% end %>
+  <%= pluralize(@article.get_upvotes.size, "Like") %>
 </p>
