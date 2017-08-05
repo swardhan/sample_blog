@@ -11,10 +11,12 @@ class ArticlesController < ApplicationController
   # GET /articles/1
   # GET /articles/1.json
   def show
-    if @article.voted_on_by?(current_user)
-      @likeClass="Unlike"
-    else
-      @likeClass="Like"
+    if current_user
+      if @article.voted_on_by?(current_user)
+        @likeClass="Unlike"
+      else
+        @likeClass="Like"
+      end
     end
   end
 
